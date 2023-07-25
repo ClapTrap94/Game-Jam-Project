@@ -7,7 +7,7 @@ public class PlayerScript : MonoBehaviour
     // Import Componenets
     Rigidbody2D _rb;
     Collider2D _collider;
-    Animator animator;
+    Animator _animator;
     SpriteRenderer _sprite;
 
     // Movement Variables
@@ -30,6 +30,9 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] float _attackRadius = 0.5f;
     [SerializeField] int _attackDamage = 34;
 
+    // Player Inventory
+    public int firewoodAmount;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -37,7 +40,9 @@ public class PlayerScript : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<Collider2D>();
         _sprite = GetComponent<SpriteRenderer>();
-    }
+        _animator = GetComponent<Animator>();
+        firewoodAmount = 0;
+}
 
     private void Start()
     {
@@ -64,9 +69,9 @@ public class PlayerScript : MonoBehaviour
         {
             _sprite.flipX = false;
         }
-        //animator.SetFloat("Horizontal", _movement.x);
-        //animator.SetFloat("Vertical", _movement.y);
-        //animator.SetFloat("Speed", _movement.sqrMagnitude);
+        _animator.SetFloat("Horizontal", _movement.x);
+        _animator.SetFloat("Vertical", _movement.y);
+        _animator.SetFloat("Speed", _movement.sqrMagnitude);
 
         // Attack
         if (Input.GetKeyDown(KeyCode.Space) == true)
@@ -86,7 +91,7 @@ public class PlayerScript : MonoBehaviour
         _attackPointSprite.enabled = true;
 
         //Animation
-        //animator.SetTrigger("Attack");
+        _animator.SetTrigger("Attack");
 
 
 
@@ -94,8 +99,6 @@ public class PlayerScript : MonoBehaviour
         Collider2D[] enemiesHit = Physics2D.OverlapCircleAll(_attackPoint.position, _attackRadius, enemyLayers);
         Collider2D[] destructiblesHit = Physics2D.OverlapCircleAll(_attackPoint.position, _attackRadius, destructiblesLayers);
 
-        Debug.Log("We hit " + enemiesHit.Length + " enemies");
-        Debug.Log("We hit " + destructiblesHit.Length + " destructibles");
         //Deal damage to enemies
         foreach (Collider2D enemy in enemiesHit)
         {

@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 8582414915831487035}
   - component: {fileID: 6556010646576077809}
   - component: {fileID: 3830959339018339026}
+  - component: {fileID: 2323811748414417980}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -191,10 +192,10 @@ MonoBehaviour:
   _attackPointSprite: {fileID: 3036517158314898548}
   enemyLayers:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
   destructiblesLayers:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
   _attackRadius: 0.5
   _attackDamage: 40
 --- !u!50 &6556010646576077809
@@ -269,3 +270,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!95 &2323811748414417980
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563755042085589608}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
