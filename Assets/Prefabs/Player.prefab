@@ -188,12 +188,13 @@ MonoBehaviour:
   maxHealth: 100
   maxTemp: 100
   _attackPoint: {fileID: 5904918269380954335}
+  _attackPointSprite: {fileID: 3036517158314898548}
   enemyLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
   destructiblesLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   _attackRadius: 0.5
   _attackDamage: 40
 --- !u!50 &6556010646576077809

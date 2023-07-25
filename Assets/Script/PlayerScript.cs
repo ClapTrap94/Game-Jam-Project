@@ -108,6 +108,7 @@ public class PlayerScript : MonoBehaviour
         foreach (Collider2D destructible in destructiblesHit)
         {
             Debug.Log("We hit " + destructible);
+            destructible.GetComponent<DestructibleScript>().TakeDamage(_attackDamage);
         }
 
         _attackPointSprite.enabled = false;
