@@ -1,15 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using static PickupScript;
 
 public class DestructibleScript : MonoBehaviour
 {
-    //Health Variables
+    // Import
+    [SerializeField] GameObject firewoodObject;
+
+    // Object type
+    public enum DestructibleType {TREE,BRANCH,BUSH}
+    public DestructibleType currentObject;
+    private int firewoodDroprate;
+
+    // Health Variables
     [SerializeField] private int maxHealth = 120;
     private int _currentHealth;
     private bool _isAlive = true;
-
-    //Attack Variables
 
     private void Start()
     {
@@ -32,6 +37,20 @@ public class DestructibleScript : MonoBehaviour
     }
     private void Die()
     {
+        switch (currentObject)
+        {
+            case DestructibleType.TREE:
+                firewoodDroprate = 3;
+                //Instantiate();
+                break;
+            case DestructibleType.BRANCH:
+                firewoodDroprate = 1;
+                break;
+            case DestructibleType.BUSH:
+                firewoodDroprate = 1;
+                break;
+        }
+
         Destroy(gameObject);
     }
 }

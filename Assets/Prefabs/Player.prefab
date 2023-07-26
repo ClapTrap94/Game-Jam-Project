@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5904918269380954335}
   - component: {fileID: 3036517158314898548}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: AttackPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,9 +98,9 @@ GameObject:
   - component: {fileID: 6556010646576077809}
   - component: {fileID: 3830959339018339026}
   - component: {fileID: 2323811748414417980}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -198,6 +198,7 @@ MonoBehaviour:
     m_Bits: 0
   _attackRadius: 0.5
   _attackDamage: 40
+  firewoodAmount: 0
 --- !u!50 &6556010646576077809
 Rigidbody2D:
   serializedVersion: 4

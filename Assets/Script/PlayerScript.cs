@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
@@ -7,7 +5,7 @@ public class PlayerScript : MonoBehaviour
     // Import Componenets
     Rigidbody2D _rb;
     Collider2D _collider;
-    Animator _animator;
+    //Animator _animator;
     SpriteRenderer _sprite;
 
     // Movement Variables
@@ -40,9 +38,9 @@ public class PlayerScript : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<Collider2D>();
         _sprite = GetComponent<SpriteRenderer>();
-        _animator = GetComponent<Animator>();
+        //_animator = GetComponent<Animator>();
         firewoodAmount = 0;
-}
+    }
 
     private void Start()
     {
@@ -69,9 +67,9 @@ public class PlayerScript : MonoBehaviour
         {
             _sprite.flipX = false;
         }
-        _animator.SetFloat("Horizontal", _movement.x);
-        _animator.SetFloat("Vertical", _movement.y);
-        _animator.SetFloat("Speed", _movement.sqrMagnitude);
+        //_animator.SetFloat("Horizontal", _movement.x);
+        //_animator.SetFloat("Vertical", _movement.y);
+        //_animator.SetFloat("Speed", _movement.sqrMagnitude);
 
         // Attack
         if (Input.GetKeyDown(KeyCode.Space) == true)
@@ -91,7 +89,7 @@ public class PlayerScript : MonoBehaviour
         _attackPointSprite.enabled = true;
 
         //Animation
-        _animator.SetTrigger("Attack");
+        //_animator.SetTrigger("Attack");
 
 
 
@@ -102,7 +100,7 @@ public class PlayerScript : MonoBehaviour
         //Deal damage to enemies
         foreach (Collider2D enemy in enemiesHit)
         {
-            Debug.Log("We hit "+ enemy);
+            Debug.Log("We hit " + enemy);
             enemy.GetComponent<EnemyScript>().TakeDamage(_attackDamage);
         }
 
