@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyScript : MonoBehaviour
@@ -17,7 +15,7 @@ public class EnemyScript : MonoBehaviour
     }
     private void Update()
     {
-        
+
     }
     public void TakeDamage(int damage)
     {

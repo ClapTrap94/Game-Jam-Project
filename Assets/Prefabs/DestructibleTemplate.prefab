@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 911652109272387950}
   - component: {fileID: 6183122022918778345}
   m_Layer: 7
-  m_Name: Destructible
+  m_Name: DestructibleTemplate
   m_TagString: Trees
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -143,4 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae9637d6a6fc5194db762440ad10d11c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firewoodObject: {fileID: 8522776069538086998, guid: aa34276bcf70ea34eb1eb816f74199c5, type: 3}
+  currentObject: 0
+  firewoodDroprate: 0
   maxHealth: 120
