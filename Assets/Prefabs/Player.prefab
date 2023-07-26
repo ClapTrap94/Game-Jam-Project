@@ -192,10 +192,10 @@ MonoBehaviour:
   _attackPointSprite: {fileID: 3036517158314898548}
   enemyLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   destructiblesLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   _attackRadius: 0.5
   _attackDamage: 40
   firewoodAmount: 0

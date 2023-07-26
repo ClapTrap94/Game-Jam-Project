@@ -30,7 +30,6 @@ public class DestructibleScript : MonoBehaviour
         if (_currentHealth <= 0)
         {
             _currentHealth = 0;
-            _isAlive = false;
             Die();
         }
     }
@@ -40,7 +39,10 @@ public class DestructibleScript : MonoBehaviour
         {
             case DestructibleType.TREE:
                 firewoodDroprate = 3;
-                //Instantiate();
+                for (int i = 0; i < firewoodDroprate; i++)
+                {
+                    Instantiate(firewoodObject, transform.position, transform.rotation);
+                }
                 break;
             case DestructibleType.BRANCH:
                 firewoodDroprate = 1;

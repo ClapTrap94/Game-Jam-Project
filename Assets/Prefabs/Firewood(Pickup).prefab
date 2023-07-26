@@ -145,3 +145,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentObject: 0
   pickupQuantity: 1
+  objTrans: {fileID: 7427637972223707667}
