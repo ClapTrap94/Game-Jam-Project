@@ -32,6 +32,11 @@ public class PlayerScript : MonoBehaviour
     // Player Inventory
     public int firewoodAmount;
 
+    // Player timer
+    private float logTimer = 0f;
+    private float logInterval = 3f;
+    private bool isOutside = true;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -79,9 +84,13 @@ public class PlayerScript : MonoBehaviour
             Attack();
         }
         // Take damage
-        if (Input.GetKeyDown(KeyCode.K))
+
+        logTimer += Time.deltaTime;
+        if (logTimer >= logInterval && isOutside)
         {
+            Debug.Log("3s");
             TakeDamage(20);
+            logTimer = 0f;
         }
     }
 
