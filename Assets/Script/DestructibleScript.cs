@@ -32,6 +32,9 @@ public class DestructibleScript : MonoBehaviour
             _currentHealth = 0;
 
 
+
+
+
             Die();
         }
     }
