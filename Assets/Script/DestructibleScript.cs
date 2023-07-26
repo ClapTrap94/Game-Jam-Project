@@ -14,7 +14,6 @@ public class DestructibleScript : MonoBehaviour
     // Health Variables
     [SerializeField] private int maxHealth = 120;
     private int _currentHealth;
-    private bool _isAlive = true;
 
     private void Start()
     {
