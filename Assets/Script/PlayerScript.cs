@@ -13,9 +13,10 @@ public class PlayerScript : MonoBehaviour
     private Vector2 _movement;
 
     // Health Variables
-    [SerializeField] private int maxHealth = 100;
+    public HealthBar healthBar;
+    public int maxHealth = 100;
     [SerializeField] private float maxTemp = 100f;
-    private int _currentHealth;
+    public int _currentHealth;
     private float _currentTemp;
     private bool _isAlive = true;
 
@@ -42,9 +43,10 @@ public class PlayerScript : MonoBehaviour
         firewoodAmount = 0;
     }
 
-    private void Start()
+    public void Start()
     {
         _currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
         _currentTemp = maxTemp;
     }
 
@@ -76,7 +78,20 @@ public class PlayerScript : MonoBehaviour
         {
             Attack();
         }
+        // Take damage
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            TakeDamage(20);
+        }
     }
+
+        void TakeDamage(int damage)
+         {
+        _currentHealth -= damage;
+
+        healthBar.SetHealth(_currentHealth);
+         }
+
     private void FixedUpdate()
     {
         //movement
@@ -122,4 +137,6 @@ public class PlayerScript : MonoBehaviour
 
         Gizmos.DrawWireSphere(_attackPoint.position, _attackRadius);
     }
+
+
 }
