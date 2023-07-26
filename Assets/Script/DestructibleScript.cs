@@ -30,6 +30,10 @@ public class DestructibleScript : MonoBehaviour
         if (_currentHealth <= 0)
         {
             _currentHealth = 0;
+<<<<<<< Updated upstream
+=======
+            //_isAlive = false;
+>>>>>>> Stashed changes
             Die();
         }
     }
