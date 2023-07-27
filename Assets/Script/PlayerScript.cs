@@ -79,32 +79,9 @@ public class PlayerScript : MonoBehaviour
         _animator.SetFloat("Speed", _movement.sqrMagnitude);
 
         // Attack
+        
         if (Time.time >= _nextAttackTime)
         {
-         HEAD
-            Attack();
-        }
-
-        // Take damage
-        logTimer += Time.deltaTime;
-        if (logTimer >= logInterval && isOutside)
-        {
-            Debug.Log("3s");
-            TakeDamage(5);
-            logTimer = 0f;
-        }
-    }
-
-        public void TakeDamage(int damage)
-        {
-            _currentHealth -= damage;
-
-            healthBar.SetHealth(_currentHealth);
-        }
-
-
-
-           
             if (Input.GetKeyDown(KeyCode.Space) == true)
             {
                 Attack();
@@ -126,7 +103,7 @@ public class PlayerScript : MonoBehaviour
                 _attackPoint.transform.localPosition = new Vector2(_movement.x, _movement.y);
             }
 
-            // Take damage
+            // Take damage outside
             if (isOutside == true)
             {
                 if (logTimer >= logInterval)
