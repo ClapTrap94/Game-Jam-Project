@@ -83,15 +83,11 @@ public class PlayerScript : MonoBehaviour
         _animator.SetFloat("Speed", _movement.sqrMagnitude);
 
         // Attack
+        
         if (Time.time >= _nextAttackTime)
         {
 
-            //Attack();
-        }
 
-    
-    }
-  
     private void FixedUpdate()
     {
         if (_isAlive == true) 
@@ -105,8 +101,7 @@ public class PlayerScript : MonoBehaviour
                 _attackPoint.transform.localPosition = new Vector2(_movement.x, _movement.y);
             }
 
-            // Take damage
-            if (isOutside)
+
             {
                 if (logTimer >= logInterval)
                 {

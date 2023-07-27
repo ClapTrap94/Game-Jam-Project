@@ -11,7 +11,7 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Player
+  - 
   - Water
   - UI
   - Enemies
@@ -19,9 +19,9 @@ TagManager:
   - 
   - 
   - Tile-Map
-  - 
-  - 
-  - 
+  - hus
+  - "tr\xE4d"
+  - Player
   - 
   - 
   - 
