@@ -4,8 +4,7 @@ public class PlayerScript : MonoBehaviour
 {
     // Import Componenets
     Rigidbody2D _rb;
-    Collider2D _collider;
-    //Animator _animator;
+    [SerializeField] Animator _animator;
     SpriteRenderer _sprite;
 
     // Movement Variables
@@ -15,10 +14,9 @@ public class PlayerScript : MonoBehaviour
     // Health Variables
     public HealthBar healthBar;
     public int maxHealth = 100;
-    [SerializeField] private float maxTemp = 100f;
     public int _currentHealth;
-    private float _currentTemp;
     private bool _isAlive = true;
+    public int damageOverTime = 1;
 
     // Attack Variables
     private bool _isAttacking = false;
@@ -27,24 +25,25 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] LayerMask enemyLayers;
     [SerializeField] LayerMask destructiblesLayers;
     [SerializeField] float _attackRadius = 0.5f;
+    [SerializeField] float _attackRate = 2f;
     [SerializeField] int _attackDamage = 34;
+    float _nextAttackTime = 0f;
 
     // Player Inventory
     public int firewoodAmount;
 
     // Player timer
-    private float logTimer = 0f;
+    public float logTimer = 0f;
     private float logInterval = 3f;
-    private bool isOutside = true;
+    public bool isOutside = true;
 
 
     // Start is called before the first frame update
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _collider = GetComponent<Collider2D>();
         _sprite = GetComponent<SpriteRenderer>();
-        //_animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
         firewoodAmount = 0;
     }
 
@@ -52,7 +51,6 @@ public class PlayerScript : MonoBehaviour
     {
         _currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
-        _currentTemp = maxTemp;
     }
 
     // Update is called once per frame
@@ -74,37 +72,52 @@ public class PlayerScript : MonoBehaviour
         {
             _sprite.flipX = false;
         }
-        //_animator.SetFloat("Horizontal", _movement.x);
-        //_animator.SetFloat("Vertical", _movement.y);
-        //_animator.SetFloat("Speed", _movement.sqrMagnitude);
+        _animator.SetFloat("Horizontal", _movement.x);
+        _animator.SetFloat("Vertical", _movement.y);
+        _animator.SetFloat("Speed", _movement.sqrMagnitude);
 
         // Attack
-        if (Input.GetKeyDown(KeyCode.Space) == true)
+        if (Time.time >= _nextAttackTime)
         {
-            Attack();
-        }
-        // Take damage
-
-        logTimer += Time.deltaTime;
-        if (logTimer >= logInterval && isOutside)
-        {
-            Debug.Log("3s");
-            TakeDamage(20);
-            logTimer = 0f;
+            if (Input.GetKeyDown(KeyCode.Space) == true)
+            {
+                Attack();
+                _nextAttackTime = Time.time + 1f / _attackRate;
+            }
         }
     }
-
-        void TakeDamage(int damage)
-         {
-        _currentHealth -= damage;
-
-        healthBar.SetHealth(_currentHealth);
-         }
-
     private void FixedUpdate()
     {
-        //movement
-        _rb.MovePosition(_rb.position + _movement * movementSpeed * Time.fixedDeltaTime);
+        if (_isAlive == true) 
+        {
+            //movement
+            _rb.MovePosition(_rb.position + _movement * movementSpeed * Time.fixedDeltaTime);
+
+            // Attack point movement
+            if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+            {
+                _attackPoint.transform.localPosition = new Vector2(_movement.x, _movement.y);
+            }
+
+            // Take damage
+            if (isOutside == true)
+            {
+                if (logTimer >= logInterval)
+                {
+                    TakeDamage(damageOverTime);
+
+                    logTimer = 0f;
+
+                }
+                else
+                {
+                    logTimer += Time.fixedDeltaTime;
+                }
+            }
+        }
+        
+
+        
     }
     private void Attack()
     {
@@ -113,7 +126,7 @@ public class PlayerScript : MonoBehaviour
         _attackPointSprite.enabled = true;
 
         //Animation
-        //_animator.SetTrigger("Attack");
+        _animator.SetTrigger("Attack");
 
 
 
@@ -129,7 +142,6 @@ public class PlayerScript : MonoBehaviour
         }
 
         //Deal damage to destructibles
-
         foreach (Collider2D destructible in destructiblesHit)
         {
             Debug.Log("We hit " + destructible);
@@ -146,6 +158,20 @@ public class PlayerScript : MonoBehaviour
 
         Gizmos.DrawWireSphere(_attackPoint.position, _attackRadius);
     }
+    public void TakeDamage(int damage)
+    {
+        _currentHealth -= damage;
+        healthBar.SetHealth(_currentHealth);
+        if (_currentHealth <= 0)
+        {
+            Die();
+            _animator.SetTrigger("Die");
+        }
+    }
+    public void Die()
+    {
+        _isAlive = false;
 
+    }
 
 }
