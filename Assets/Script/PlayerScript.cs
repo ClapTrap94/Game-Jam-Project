@@ -20,6 +20,8 @@ public class PlayerScript : MonoBehaviour
     private float _currentTemp;
     private bool _isAlive = true;
 
+
+
     // Attack Variables
     private bool _isAttacking = false;
     [SerializeField] Transform _attackPoint;
@@ -83,23 +85,25 @@ public class PlayerScript : MonoBehaviour
         {
             Attack();
         }
-        // Take damage
 
+        // Take damage
         logTimer += Time.deltaTime;
         if (logTimer >= logInterval && isOutside)
         {
             Debug.Log("3s");
-            TakeDamage(20);
+            TakeDamage(5);
             logTimer = 0f;
         }
     }
 
-        void TakeDamage(int damage)
-         {
-        _currentHealth -= damage;
+        public void TakeDamage(int damage)
+        {
+            _currentHealth -= damage;
 
-        healthBar.SetHealth(_currentHealth);
-         }
+            healthBar.SetHealth(_currentHealth);
+        }
+
+
 
     private void FixedUpdate()
     {
