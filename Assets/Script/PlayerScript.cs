@@ -18,6 +18,10 @@ public class PlayerScript : MonoBehaviour
     private bool _isAlive = true;
     public int damageOverTime = 1;
 
+    // Scoring Variables
+    public Scoring scoreTracker;
+    public int score = 0;
+
 
 
     // Attack Variables
@@ -81,38 +85,13 @@ public class PlayerScript : MonoBehaviour
         // Attack
         if (Time.time >= _nextAttackTime)
         {
-         HEAD
-            Attack();
+
+            //Attack();
         }
 
-        // Take damage
-        logTimer += Time.deltaTime;
-        if (logTimer >= logInterval && isOutside)
-        {
-            Debug.Log("3s");
-            TakeDamage(5);
-            logTimer = 0f;
-        }
+    
     }
-
-        public void TakeDamage(int damage)
-        {
-            _currentHealth -= damage;
-
-            healthBar.SetHealth(_currentHealth);
-        }
-
-
-
-           
-            if (Input.GetKeyDown(KeyCode.Space) == true)
-            {
-                Attack();
-                _nextAttackTime = Time.time + 1f / _attackRate;
-            }
-        }
-    }
- 
+  
     private void FixedUpdate()
     {
         if (_isAlive == true) 
@@ -127,10 +106,11 @@ public class PlayerScript : MonoBehaviour
             }
 
             // Take damage
-            if (isOutside == true)
+            if (isOutside)
             {
                 if (logTimer >= logInterval)
                 {
+                    IncreaseScore();
                     TakeDamage(damageOverTime);
 
                     logTimer = 0f;
@@ -145,6 +125,11 @@ public class PlayerScript : MonoBehaviour
         
 
         
+    }
+
+    public void IsOutside(bool Outside)
+    {
+        isOutside = Outside;
     }
     private void Attack()
     {
@@ -185,6 +170,12 @@ public class PlayerScript : MonoBehaviour
 
         Gizmos.DrawWireSphere(_attackPoint.position, _attackRadius);
     }
+
+    public void IncreaseScore()
+    {
+        score+=10;
+        scoreTracker.IncreaseScore(score);
+    }
     public void TakeDamage(int damage)
     {
         _currentHealth -= damage;
@@ -192,13 +183,12 @@ public class PlayerScript : MonoBehaviour
         if (_currentHealth <= 0)
         {
             Die();
-            _animator.SetTrigger("Die");
         }
     }
     public void Die()
     {
         _isAlive = false;
-
+        _animator.SetTrigger("Die");
     }
 
 }
