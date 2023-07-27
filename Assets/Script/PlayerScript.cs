@@ -16,7 +16,7 @@ public class PlayerScript : MonoBehaviour
     public int maxHealth = 100;
     public int _currentHealth;
     private bool _isAlive = true;
-    public int damageOverTime = 1;
+    public int damageOverTime = 20;
 
     // Scoring Variables
     public Scoring scoreTracker;
@@ -40,8 +40,11 @@ public class PlayerScript : MonoBehaviour
 
     // Player timer
     public float logTimer = 0f;
-    private float logInterval = 3f;
+    private float logInterval = 1f;
     public bool isOutside = true;
+
+    // Game over
+    public GameOver gameOver;
 
 
     // Start is called before the first frame update
@@ -62,37 +65,34 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Movement directions:
-        _movement.x = Input.GetAxisRaw("Horizontal");
-        _movement.y = Input.GetAxisRaw("Vertical");
-
-        if (_movement.x < -0.01)
+        if (_isAlive)
         {
-            _sprite.flipX = true;
+
+            // Movement directions:
+            _movement.x = Input.GetAxisRaw("Horizontal");
+            _movement.y = Input.GetAxisRaw("Vertical");
+
+            if (_movement.x < -0.01)
+            {
+                _sprite.flipX = true;
+            }
+            if (_movement.x > 0.01)
+            {
+                _sprite.flipX = false;
+            }
+            if (_movement.x == 0)
+            {
+                _sprite.flipX = false;
+            }
+            _animator.SetFloat("Horizontal", _movement.x);
+            _animator.SetFloat("Vertical", _movement.y);
+            _animator.SetFloat("Speed", _movement.sqrMagnitude);
         }
-        if (_movement.x > 0.01)
-        {
-            _sprite.flipX = false;
-        }
-        if (_movement.x == 0)
-        {
-            _sprite.flipX = false;
-        }
-        _animator.SetFloat("Horizontal", _movement.x);
-        _animator.SetFloat("Vertical", _movement.y);
-        _animator.SetFloat("Speed", _movement.sqrMagnitude);
-
-        // Attack
-        
-        if (Time.time >= _nextAttackTime)
-        {
-
-
-    private void FixedUpdate()
+    }
+    void FixedUpdate()
     {
-        if (_isAlive == true) 
-        {
-            //movement
+        if (_isAlive)
+        {            //movement
             _rb.MovePosition(_rb.position + _movement * movementSpeed * Time.fixedDeltaTime);
 
             // Attack point movement
@@ -101,25 +101,23 @@ public class PlayerScript : MonoBehaviour
                 _attackPoint.transform.localPosition = new Vector2(_movement.x, _movement.y);
             }
 
-
+            if (Input.GetKeyDown(KeyCode.Space) == true)
             {
-                if (logTimer >= logInterval)
-                {
-                    IncreaseScore();
-                    TakeDamage(damageOverTime);
+                Attack();
+                _nextAttackTime = Time.time + 1f / _attackRate;
+            }
 
-                    logTimer = 0f;
-
-                }
-                else
-                {
-                    logTimer += Time.fixedDeltaTime;
-                }
+            if (logTimer >= logInterval && _isAlive)
+            {
+                IncreaseScore();
+                TakeDamage(damageOverTime);
+                logTimer = 0f;
+            }
+            else
+            {
+                logTimer += Time.fixedDeltaTime;
             }
         }
-        
-
-        
     }
 
     public void IsOutside(bool Outside)
@@ -184,6 +182,7 @@ public class PlayerScript : MonoBehaviour
     {
         _isAlive = false;
         _animator.SetTrigger("Die");
+        gameOver.EnableGameOverMenu();
     }
 
 }
