@@ -88,30 +88,36 @@ public class PlayerScript : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        //movement
-        _rb.MovePosition(_rb.position + _movement * movementSpeed * Time.fixedDeltaTime);
-
-        // Attack point movement
-        if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
+        if (_isAlive == true) 
         {
-            _attackPoint.transform.localPosition = new Vector2(_movement.x, _movement.y);
-        }
+            //movement
+            _rb.MovePosition(_rb.position + _movement * movementSpeed * Time.fixedDeltaTime);
 
-        // Take damage
-        if (isOutside == true)
-        {
-            if (logTimer >= logInterval)
+            // Attack point movement
+            if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
             {
-                TakeDamage(damageOverTime);
-
-                logTimer = 0f;
-                
+                _attackPoint.transform.localPosition = new Vector2(_movement.x, _movement.y);
             }
-            else
+
+            // Take damage
+            if (isOutside == true)
             {
-                logTimer += Time.fixedDeltaTime;
+                if (logTimer >= logInterval)
+                {
+                    TakeDamage(damageOverTime);
+
+                    logTimer = 0f;
+
+                }
+                else
+                {
+                    logTimer += Time.fixedDeltaTime;
+                }
             }
         }
+        
+
+        
     }
     private void Attack()
     {
@@ -145,11 +151,6 @@ public class PlayerScript : MonoBehaviour
         _attackPointSprite.enabled = false;
         _isAttacking = false;
     }
-    void TakeDamage(int damage)
-    {
-        _currentHealth -= damage;
-        healthBar.SetHealth(_currentHealth);
-    }
     private void OnDrawGizmosSelected()
     {
         if (_attackPoint == null)
@@ -157,6 +158,20 @@ public class PlayerScript : MonoBehaviour
 
         Gizmos.DrawWireSphere(_attackPoint.position, _attackRadius);
     }
+    public void TakeDamage(int damage)
+    {
+        _currentHealth -= damage;
+        healthBar.SetHealth(_currentHealth);
+        if (_currentHealth <= 0)
+        {
+            Die();
+            _animator.SetTrigger("Die");
+        }
+    }
+    public void Die()
+    {
+        _isAlive = false;
 
+    }
 
 }
