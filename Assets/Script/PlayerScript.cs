@@ -25,9 +25,7 @@ public class PlayerScript : MonoBehaviour
 
 
     // Attack Variables
-    private bool _isAttacking = false;
     [SerializeField] Transform _attackPoint;
-    [SerializeField] SpriteRenderer _attackPointSprite;
     [SerializeField] LayerMask enemyLayers;
     [SerializeField] LayerMask destructiblesLayers;
     [SerializeField] float _attackRadius = 0.5f;
@@ -72,18 +70,6 @@ public class PlayerScript : MonoBehaviour
             _movement.x = Input.GetAxisRaw("Horizontal");
             _movement.y = Input.GetAxisRaw("Vertical");
 
-            if (_movement.x < -0.01)
-            {
-                _sprite.flipX = true;
-            }
-            if (_movement.x > 0.01)
-            {
-                _sprite.flipX = false;
-            }
-            if (_movement.x == 0)
-            {
-                _sprite.flipX = false;
-            }
             _animator.SetFloat("Horizontal", _movement.x);
             _animator.SetFloat("Vertical", _movement.y);
             _animator.SetFloat("Speed", _movement.sqrMagnitude);
@@ -92,7 +78,8 @@ public class PlayerScript : MonoBehaviour
     void FixedUpdate()
     {
         if (_isAlive)
-        {            //movement
+        {   
+            // Movement
             _rb.MovePosition(_rb.position + _movement * movementSpeed * Time.fixedDeltaTime);
 
             // Attack point movement
@@ -101,22 +88,31 @@ public class PlayerScript : MonoBehaviour
                 _attackPoint.transform.localPosition = new Vector2(_movement.x, _movement.y);
             }
 
-            if (Input.GetKeyDown(KeyCode.Space) == true)
+            // Attack
+            if (Time.time >= _nextAttackTime)
             {
-                Attack();
-                _nextAttackTime = Time.time + 1f / _attackRate;
+                if (Input.GetKeyDown(KeyCode.Space) == true)
+                {
+                    Attack();
+                    _nextAttackTime = Time.time + 1f / _attackRate;
+                }
             }
 
-            if (logTimer >= logInterval && _isAlive)
+            // Damage when outside
+            if (isOutside == true)
             {
-                IncreaseScore();
-                TakeDamage(damageOverTime);
-                logTimer = 0f;
+                if (logTimer >= logInterval)
+                {
+                    IncreaseScore();
+                    TakeDamage(damageOverTime);
+                    logTimer = 0f;
+                }
+                else
+                {
+                    logTimer += Time.fixedDeltaTime;
+                }
             }
-            else
-            {
-                logTimer += Time.fixedDeltaTime;
-            }
+            
         }
     }
 
@@ -126,12 +122,8 @@ public class PlayerScript : MonoBehaviour
     }
     private void Attack()
     {
-
-        _isAttacking = true;
-        _attackPointSprite.enabled = true;
-
         //Animation
-        _animator.SetTrigger("Attack");
+        //_animator.SetTrigger("Attack");
 
 
 
@@ -152,9 +144,6 @@ public class PlayerScript : MonoBehaviour
             Debug.Log("We hit " + destructible);
             destructible.GetComponent<DestructibleScript>().TakeDamage(_attackDamage);
         }
-
-        _attackPointSprite.enabled = false;
-        _isAttacking = false;
     }
     private void OnDrawGizmosSelected()
     {
