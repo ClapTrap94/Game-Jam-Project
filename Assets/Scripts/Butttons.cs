@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Butttons : MonoBehaviour
 {
-    public int gameStartScene;
+    public string gameStartScene;
     public void StartGame()
     {
         SceneManager.LoadScene(gameStartScene); 

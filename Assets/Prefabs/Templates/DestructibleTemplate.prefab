@@ -145,5 +145,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firewoodObject: {fileID: 8522776069538086998, guid: aa34276bcf70ea34eb1eb816f74199c5, type: 3}
   currentObject: 0
-  firewoodDroprate: 0
-  maxHealth: 120
+  maxHealth: 100
