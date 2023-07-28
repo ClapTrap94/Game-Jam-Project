@@ -6,28 +6,27 @@ public class PlayerScript : MonoBehaviour
     Rigidbody2D _rb;
     [SerializeField] Animator _animator;
     SpriteRenderer _sprite;
+    public HealthBar healthBar;
+    [SerializeField] Transform _attackPoint;
+    [SerializeField] LayerMask enemyLayers;
+    [SerializeField] LayerMask destructiblesLayers;
+    public GameOver gameOver;
+    public Scoring scoreTracker;
 
     // Movement Variables
     public float movementSpeed = 5.0f;
     private Vector2 _movement;
 
     // Health Variables
-    public HealthBar healthBar;
     public int maxHealth = 100;
     public int _currentHealth;
     private bool _isAlive = true;
     public int damageOverTime = 20;
 
     // Scoring Variables
-    public Scoring scoreTracker;
     public int score = 0;
 
-
-
     // Attack Variables
-    [SerializeField] Transform _attackPoint;
-    [SerializeField] LayerMask enemyLayers;
-    [SerializeField] LayerMask destructiblesLayers;
     [SerializeField] float _attackRadius = 0.5f;
     [SerializeField] float _attackRate = 2f;
     [SerializeField] int _attackDamage = 34;
@@ -38,12 +37,8 @@ public class PlayerScript : MonoBehaviour
 
     // Player timer
     public float logTimer = 0f;
-    private float logInterval = 1f;
-    public bool isOutside = true;
-
-    // Game over
-    public GameOver gameOver;
-
+    private float logInterval = 0.5f;
+    public bool isOutside = false;
 
     // Start is called before the first frame update
     void Awake()
@@ -73,7 +68,18 @@ public class PlayerScript : MonoBehaviour
             _animator.SetFloat("Horizontal", _movement.x);
             _animator.SetFloat("Vertical", _movement.y);
             _animator.SetFloat("Speed", _movement.sqrMagnitude);
+
+            // Attack
+            if (Time.time >= _nextAttackTime)
+            {
+                if (Input.GetKeyDown(KeyCode.Space) == true)
+                {
+                    Attack();
+                    _nextAttackTime = Time.time + 1f / _attackRate;
+                }
+            }
         }
+
     }
     void FixedUpdate()
     {
@@ -86,16 +92,6 @@ public class PlayerScript : MonoBehaviour
             if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
             {
                 _attackPoint.transform.localPosition = new Vector2(_movement.x, _movement.y);
-            }
-
-            // Attack
-            if (Time.time >= _nextAttackTime)
-            {
-                if (Input.GetKeyDown(KeyCode.Space) == true)
-                {
-                    Attack();
-                    _nextAttackTime = Time.time + 1f / _attackRate;
-                }
             }
 
             // Damage when outside

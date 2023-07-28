@@ -1,7 +1,9 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PickupScript : MonoBehaviour
 {
+
     public enum PickedObject { Firewood }
     public PickedObject currentObject;
     public int pickupQuantity = 1;
@@ -35,12 +37,7 @@ public class PickupScript : MonoBehaviour
             if (currentObject == PickedObject.Firewood)
             {
                 collision.GetComponent<PlayerScript>().firewoodAmount += pickupQuantity;
-                Debug.Log(collision.GetComponent<PlayerScript>().firewoodAmount);
             }
-            /*else if (currentObject == PickedObject.Firewood)
-            {
-                
-            }*/
             Destroy(gameObject);
         }
     }

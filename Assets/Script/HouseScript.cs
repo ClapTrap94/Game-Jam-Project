@@ -1,9 +1,12 @@
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 
 public class HouseScript : MonoBehaviour
 {
     // Player Script
     public GameObject player;
+    public GameObject smoke;
+    public GameObject windows;
     private PlayerScript playerScript;
 
     // Firewood Variables
@@ -41,6 +44,8 @@ public class HouseScript : MonoBehaviour
             else if (firewoodInStorage <= 0)
             {
                 isBurning = false;
+                smoke.gameObject.SetActive(false);
+                windows.gameObject.SetActive(false);
                 playerScript.isOutside = true;
                 playerInArea = false;
             }
